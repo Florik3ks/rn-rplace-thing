@@ -44,7 +44,7 @@ def next_pixel(client):
             data, server = client.recvfrom(1024, )
             current = data.decode("utf-8").split("#")[1][:6]
             i += 1
-            i %= img.width * img.height
+            i %= len(keys)
             if color != f"#{current}":
                 return px, py, color
             else:
