@@ -8,7 +8,7 @@ from PIL import Image
 
 img = Image.open('img/mrow.png')
 startx = 456
-starty = 376
+starty = 350
 
 pixels = {}
 
