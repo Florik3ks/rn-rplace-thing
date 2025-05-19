@@ -45,7 +45,7 @@ def next_pixel(client):
             current = data.decode("utf-8").split("#")[1][:6]
             i += 1
             i %= len(keys)
-            if color != f"#{current}":
+            if color.upper() != f"#{current.upper()}":
                 return px, py, color
             else:
                 print(f"{Style.DIM}skip {px}, {py}{Style.RESET_ALL}")
