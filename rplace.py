@@ -1,5 +1,6 @@
 import time, random
 from socket import *
+import traceback
 
 from PIL import Image
 
@@ -48,15 +49,15 @@ def get_msg(client):
     x,y,color = next_pixel(client)
     return f"place {x} {y} {color}\r\n"
 
-client = socket(AF_INET, SOCK_STREAM)
-client.settimeout(0.5)
-
 ip = "148.251.181.111"
 port = 6666
 addr = (ip, port)
 
 while True:
     try:
+        client = socket(AF_INET, SOCK_STREAM)
+        client.settimeout(0.5)
+
         client.connect(addr)
         data, server = client.recvfrom(1024, )
         print(data)
@@ -65,8 +66,9 @@ while True:
             print(msg.strip())
             client.send(msg.encode('utf-8'))
             time.sleep(1)
+    except TimeoutError:
+        print("timeout :(")
     except Exception as e:
         print(":(", e)
+        print(traceback.format_exc())
         time.sleep(2)
-    finally:
-        client.close()
