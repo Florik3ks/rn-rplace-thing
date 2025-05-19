@@ -1,14 +1,17 @@
-import time, random
+import time
+import random
 from socket import *
 import traceback
+from colorama import Fore, Style
 
 from PIL import Image
 
-img = Image.open('img/sylveon.png')
-startx = 478
-starty = 360
+img = Image.open('img/mrow.png')
+startx = 456
+starty = 376
 
 pixels = {}
+
 
 def prep_img():
     imgdata = list(img.getdata())
@@ -17,15 +20,19 @@ def prep_img():
             x = startx + x_
             y = starty + y_
             i = x_ + y_ * img.width
+            if imgdata[i][3] == 0:
+                continue
             imgd = imgdata[i][:3]
 
             color = '#%02x%02x%02x' % imgd
-            pixels[(x,y)] = color
+            pixels[(x, y)] = color
+
 
 i = 0
 prep_img()
 keys = list(pixels.keys())
 random.shuffle(keys)
+
 
 def next_pixel(client):
     global i
@@ -41,13 +48,14 @@ def next_pixel(client):
             if color != f"#{current}":
                 return px, py, color
             else:
-                print(f"skip {px}, {py}")
+                print(f"{Style.DIM}skip {px}, {py}{Style.RESET_ALL}")
         time.sleep(1)
 
 
 def get_msg(client):
-    x,y,color = next_pixel(client)
+    x, y, color = next_pixel(client)
     return f"place {x} {y} {color}\r\n"
+
 
 ip = "148.251.181.111"
 port = 6666
@@ -65,6 +73,8 @@ while True:
             msg = get_msg(client)
             print(msg.strip())
             client.send(msg.encode('utf-8'))
+            data, server = client.recvfrom(1024, )
+            print(Fore.LIGHTMAGENTA_EX, data.decode("utf-8").strip(), Style.RESET_ALL, sep='')
             time.sleep(1)
     except TimeoutError:
         print("timeout :(")
