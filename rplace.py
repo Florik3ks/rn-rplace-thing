@@ -6,9 +6,13 @@ from colorama import Fore, Style
 
 from PIL import Image
 
-img = Image.open('img/mrow.png')
-startx = 456
-starty = 350
+# img = Image.open('img/mrow-456-305.png')
+# startx = 456
+# starty = 305
+
+img = Image.open('img/ralsei-482-305.png')
+startx = 482
+starty = 305
 
 pixels = {}
 
@@ -31,7 +35,7 @@ def prep_img():
 i = 0
 prep_img()
 keys = list(pixels.keys())
-random.shuffle(keys)
+# random.shuffle(keys)
 
 
 def next_pixel(client):
