@@ -29,6 +29,8 @@ def prep_img():
             imgd = imgdata[i][:3]
 
             color = '#%02x%02x%02x' % imgd
+            if not (0 <= x < 512 and 0 <= y < 512):
+                continue
             pixels[(x, y)] = color
 
 
